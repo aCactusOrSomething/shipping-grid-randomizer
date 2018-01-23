@@ -9,7 +9,7 @@ DivElement quadrantsDisplay;
 ButtonElement quadrantsButton;
 List<ButtonElement> deleteButtons;
 ButtonElement startButton;
-DivElement shipsOutput;
+TableElement shipsOutput;
 
 List<Relationship> ships;
 bool allowQuadrants = false;
@@ -76,9 +76,7 @@ void startShipping() {
   }
   shipsOutput.children = new List<Element>();
   for(Relationship ship in ships) {
-    ParagraphElement display = new ParagraphElement();
-    display.text = ship.toString();
-    shipsOutput.children.add(display);
+    shipsOutput.children.add(ship.toRow());
   }
 }
 
