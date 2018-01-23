@@ -11,17 +11,33 @@
     <link rel="icon" href="favicon.ico">
     <script defer src="scripts/main.dart" type="application/dart"></script>
     <script defer src="packages/browser/dart.js"></script>
+    <style>
+        table, tr, td {
+            vertical-align: text-top;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        #ignore, #names, #shipsOutput {
+            border: none;
+        }
+    </style>
 </head>
 
 <body>
-  <input id="namesInput"  placeholder="person to add.">
-  <button id="addButton">add</button>
-  <table id="names" ></table>
-  <div id="quadrantText">Quadrants are not allowed.</div><button id="allowQuadrants">toggle quadrants?</button>
-  <br>
-  <button id="startButton">Start</button>
-  <table id="shipsOutput">
-  </table>
-
+<table id="ignore">
+    <tr id="ignore">
+        <td id="ignore">
+            <input id="namesInput"  placeholder="person to add.">
+            <input id="addButton" type="submit" value="add">
+            <table id="names" ></table>
+        </td>
+        <td id="ignore">
+            <input id="allowQuadrants" type="checkbox">troll quadrants
+        </td>
+    </tr>
+</table>
+<button id="startButton">Start</button>
+<table id="shipsOutput"></table>
+<table id="shippingGrid"></table>
 </body>
 </html>
