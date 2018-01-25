@@ -6,6 +6,8 @@ InputElement input;
 InputElement addButton;
 TableElement namesDisplay;
 InputElement quadrantsButton;
+InputElement frequencySlider;
+DivElement frequencyDisplay;
 List<ButtonElement> deleteButtons;
 ButtonElement startButton;
 TableElement shipsOutput;
@@ -13,12 +15,15 @@ TableElement shippingGrid;
 
 List<Relationship> ships;
 bool allowQuadrants = false;
+int frequency = 80;
 
 void main() {
   input = querySelector("#namesInput");
   addButton = querySelector("#addButton");
   namesDisplay = querySelector("#names");
   quadrantsButton = querySelector("#allowQuadrants");
+  frequencySlider = querySelector("#frequencySlider");
+  frequencyDisplay = querySelector("#frequencyDisplay");
   startButton = querySelector("#startButton");
   shipsOutput = querySelector("#shipsOutput");
   shippingGrid = querySelector("#shippingGrid");
@@ -31,7 +36,7 @@ void main() {
   //input.onChange.listen((e) => addNewPerson());
   quadrantsButton.onClick.listen((e) => toggleQuadrants());
   startButton.onClick.listen((e) => startShipping());
-
+  frequencySlider.onInput.listen((e) => updateFrequency());
 }
 
 void addNewPerson() {
@@ -80,11 +85,12 @@ void namesDisplayUpdate() {
 }
 
 void startShipping() {
-  ships = RelationshipType.makeShips(names, RelationshipType.HEARTS);
+  //todo set this back to hearts
+  ships = RelationshipType.makeShips(names, RelationshipType.HEARTS, frequency);
   if(allowQuadrants) {
-    ships.addAll(RelationshipType.makeShips(names, RelationshipType.SPADES));
-    ships.addAll(RelationshipType.makeShips(names, RelationshipType.DIAMONDS));
-    ships.addAll(RelationshipType.makeShips(names, RelationshipType.CLUBS));
+    ships.addAll(RelationshipType.makeShips(names, RelationshipType.SPADES, frequency));
+    ships.addAll(RelationshipType.makeShips(names, RelationshipType.DIAMONDS, frequency));
+    ships.addAll(RelationshipType.makeShips(names, RelationshipType.CLUBS, frequency));
   }
   shipsOutput.children = new List<Element>();
   for(Relationship ship in ships) {
@@ -151,4 +157,9 @@ void fillGrid() {
     }
     print("next ship");
   }
+}
+
+void updateFrequency() {
+  frequency = frequencySlider.valueAsNumber;
+  frequencyDisplay.text = frequency.toString();
 }

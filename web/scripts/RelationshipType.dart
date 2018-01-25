@@ -16,16 +16,20 @@ class RelationshipType {
     this.numParties = numParties;
   }
 
-  static List<Relationship> makeShips(List<String> names, RelationshipType type){
+  static List<Relationship> makeShips(List<String> names, RelationshipType type, int frequency){
     List<Relationship> ret = new List<Relationship>();
-
+    double cutoff = frequency / 100;
     Random rand = new Random();
     for(String name in names) {
-      if(rand.nextDouble() <= .80) { //80% chance to make relation
+      if(rand.nextDouble() <= cutoff) { //% chance to make relation
         List<String> parties = new List<String>();
         parties.add(name);
         for(int i = 1; i <= type.numParties - 1; i++) {
-          parties.add(names[rand.nextInt(names.length)]);
+          if(rand.nextDouble() <= cutoff) {
+            parties.add(names[rand.nextInt(names.length)]);
+          } else {
+            i = type.numParties;
+          }
         }
         Relationship relationship = new Relationship(type, parties);
         ret.add(relationship);
