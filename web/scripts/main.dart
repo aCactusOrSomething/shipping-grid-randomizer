@@ -24,6 +24,7 @@ void main() {
   shippingGrid = querySelector("#shippingGrid");
 
   deleteButtons = new List<ButtonElement>();
+  ships = new List<Relationship>();
 
   //String ships = 'this is where i would put things if i could make them yet.';
   addButton.onClick.listen((e) => addNewPerson());
@@ -94,6 +95,8 @@ void startShipping() {
     }
     shipsOutput.children.add(row);
   }
+  buildGrid();
+  fillGrid();
 }
 
 void toggleQuadrants() {
@@ -117,6 +120,35 @@ void buildGrid() {
       shippingGrid
           .insertRow(i + 1)
           .text = name;
+      for (int j = 0; j < names.length; j++) {
+        shippingGrid.rows[i + 1].insertCell(j);
+      }
     }
+  }
+}
+
+void fillGrid() {
+  TableRowElement firstRow = shippingGrid.rows[0];
+  for(int i = 0; i < ships.length; i++) {
+    Relationship ship = ships[i];
+    String firstName = ship.parties[0];
+    for(int j = 1; j < firstRow.cells.length; j++) {
+      TableCellElement cell = firstRow.cells[j];
+      print("does " + firstName + " equal " + cell.text);
+      if(firstName == cell.text) {
+        print("yes");
+        for(int k = 1; k < shippingGrid.rows.length; k++) {
+          for(int l = 1; l < ship.parties.length; l++) {
+            print("does " + ship.parties[l] + " equal " + shippingGrid.rows[k].text + " which should be at (" + k.toString() + ", " + 0.toString() + ")");
+            if(ship.parties[l] == shippingGrid.rows[k].text.substring(0, ship.parties[l].length)) {
+              print("yes");
+              shippingGrid.rows[k].cells[j - 1].appendText(ship.type.value);
+              shippingGrid.rows[j].cells[k - 1].appendText(ship.type.value);
+            }
+          }
+        }
+      }
+    }
+    print("next ship");
   }
 }
