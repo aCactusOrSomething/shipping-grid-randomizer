@@ -9,7 +9,7 @@
     <title>ships</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico">
-    <script defer src="scripts/main.dart" type="application/dart"></script>
+    <script defer src="scripts/ShipController.dart" type="application/dart"></script>
     <script defer src="packages/browser/dart.js"></script>
     <style>
         table, tr, td {
@@ -17,32 +17,40 @@
             border-collapse: collapse;
             border: 1px solid black;
         }
-        #ignore, #names, #shipsOutput {
+        #noBorders, #names, #shipsOutput {
             border: none;
         }
     </style>
 </head>
 
 <body>
-<table id="ignore">
-    <tr id="ignore">
-        <td id="ignore">
-            <input id="namesInput"  placeholder="person to add.">
-            <input id="addButton" type="submit" value="add">
+<table id="noBorders">
+    <tr id="noBorders">
+        <td id="noBorders">
+            <input id="addButton" type="submit" value="add person">
             <table id="names" ></table>
         </td>
-        <td id="ignore">
-            <input id="allowQuadrants" type="checkbox">troll quadrants
-
+        <td id="noBorders">
+            <div>
+                <input id="allowHeart" type="checkbox" checked>human relationships
+            </div>
+            <div>
+                <input id="allowQuadrants" type="checkbox">auxilliary troll quadrants
+            </div>
+            <div>
+                <input id="allowCharms" type="checkbox">leprechaun charms
+            </div>
         </td>
-        <td id="ignore">
-            <input id="frequencySlider" type="range" min="0" max="100" value="80">
-            <div id="frequencyDisplay">80</div>
+        <td id="noBorders">
+            <div style="text-align: center">ship frequency:</div>
+            <input id="frequencySlider" type="range" min="0" max="100" value="10">
+            <div id="frequencyDisplay" style="text-align: center">10</div>
         </td>
     </tr>
 </table>
 <button id="startButton">Start</button>
-<table id="shipsOutput"></table>
 <table id="shippingGrid"></table>
+<table id="shipsOutput"></table>
+
 </body>
 </html>

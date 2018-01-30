@@ -2,10 +2,20 @@ import 'dart:html';
 import 'dart:math';
 
 class RelationshipType {
-  static final RelationshipType HEARTS = new RelationshipType("<3", 2);
-  static final RelationshipType SPADES = new RelationshipType("<3<", 2);
-  static final RelationshipType CLUBS = new RelationshipType("o8<", 3);
-  static final RelationshipType DIAMONDS = new RelationshipType("<>", 2);
+  static final RelationshipType HEARTS = new RelationshipType("\u{2661}", 2);
+  static final RelationshipType SPADES = new RelationshipType("\u{2660}", 2);
+  static final RelationshipType CLUBS = new RelationshipType("\u{2663}", 3);
+  static final RelationshipType DIAMONDS = new RelationshipType("\u{2662}", 2);
+
+  static final RelationshipType CHARM_HEARTS = new RelationshipType("\u{2764}", 2);
+  static final RelationshipType CHARM_STARS = new RelationshipType("\u{2729}", 2);
+  static final RelationshipType CHARM_HORSESHOES = new RelationshipType("\u{260B}", 2);
+  static final RelationshipType CHARM_CLOVERS = new RelationshipType("\u{2724}", 2);
+  static final RelationshipType CHARM_DIAMONDS = new RelationshipType("\u{27E1}", 2);
+  static final RelationshipType CHARM_RAINBOWS = new RelationshipType("\u{22D2}", 2);
+  static final RelationshipType CHARM_POT_O_GOLD = new RelationshipType("\u{228D}", 2);
+  static final RelationshipType CHARM_BALLOONS = new RelationshipType("\u{26B2}", 2);
+  static final RelationshipType CHARM_MOONS = new RelationshipType("\u{263E}", 2);
 
 
   String value;
@@ -16,23 +26,36 @@ class RelationshipType {
     this.numParties = numParties;
   }
 
+  //okay, time to rework this.
   static List<Relationship> makeShips(List<String> names, RelationshipType type, int frequency){
     List<Relationship> ret = new List<Relationship>();
     double cutoff = frequency / 100;
     Random rand = new Random();
-    for(String name in names) {
-      if(rand.nextDouble() <= cutoff) { //% chance to make relation
-        List<String> parties = new List<String>();
-        parties.add(name);
-        for(int i = 1; i <= type.numParties - 1; i++) {
+    int maxShips = 0;
+    for(int i = 0; i < type.numParties; i++ ) {
+      maxShips += names.length - i;
+    }
+    for(int i = 0; i < names.length; i++) {
+      for(int j = i; j < names.length; j++) {
+        //todo: only reason this is OK now is because the maximum parties in a ship is 3, for clubs. generalize this to work with any length.
+        if(type.numParties > 2) {
+          for(int k = j; k < names.length; k++) {
+            List<String> parties = new List<String>();
+            parties.add(names[i]);
+            parties.add(names[j]);
+            parties.add(names[k]);
+            if(rand.nextDouble() <= cutoff) {
+              ret.add(new Relationship(type, parties));
+            }
+          }
+        } else {
+          List<String> parties = new List<String>();
+          parties.add(names[i]);
+          parties.add(names[j]);
           if(rand.nextDouble() <= cutoff) {
-            parties.add(names[rand.nextInt(names.length)]);
-          } else {
-            i = type.numParties;
+            ret.add(new Relationship(type, parties));
           }
         }
-        Relationship relationship = new Relationship(type, parties);
-        ret.add(relationship);
       }
     }
     return ret;
