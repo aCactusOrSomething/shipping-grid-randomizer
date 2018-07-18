@@ -233,10 +233,12 @@ void fillGrid() {
         for(int k = 1; k < shippingGrid.rows.length; k++) {
           for(int l = 1; l < ship.parties.length; l++) {
             if(ship.parties[l] == names[k - 1]) {
-              shippingGrid.rows[k].cells[j - 1].appendText(ship.type.value);
+              //shippingGrid.rows[k].cells[j - 1].appendText(ship.type.value);
+              shippingGrid.rows[k].cells[j - 1].children.addAll(ship.type.getImage());
               //fuck, this means it prints it double for selfcest ships. gotta fix that.
               if(names[j - 1] != names[k - 1]) {
-                shippingGrid.rows[j].cells[k - 1].appendText(ship.type.value);
+                //shippingGrid.rows[j].cells[k - 1].appendText(ship.type.value);
+                shippingGrid.rows[j].cells[k - 1].children.addAll(ship.type.getImage());
               }
             }
           }

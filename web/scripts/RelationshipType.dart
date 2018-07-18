@@ -2,41 +2,45 @@ import 'dart:html';
 import 'dart:math';
 
 class RelationshipType {
-  static final RelationshipType HEARTS = new RelationshipType("\u{2661}", 2);
+  static final int SIZE = 20;
 
-  static final RelationshipType SPADES = new RelationshipType("\u{2660}", 2);
-  static final RelationshipType CLUBS = new RelationshipType("\u{2663}", 3);
-  static final RelationshipType DIAMONDS = new RelationshipType("\u{2662}", 2);
 
-  static final RelationshipType CHARM_HEARTS = new RelationshipType("\u{2764}", 2);
-  static final RelationshipType CHARM_STARS = new RelationshipType("\u{2729}", 2);
-  static final RelationshipType CHARM_HORSESHOES = new RelationshipType("\u{260B}", 2);
-  static final RelationshipType CHARM_CLOVERS = new RelationshipType("\u{2724}", 2);
-  static final RelationshipType CHARM_DIAMONDS = new RelationshipType("\u{27E1}", 2);
-  static final RelationshipType CHARM_RAINBOWS = new RelationshipType("\u{22D2}", 2);
-  static final RelationshipType CHARM_POT_O_GOLD = new RelationshipType("\u{228D}", 2);
-  static final RelationshipType CHARM_BALLOONS = new RelationshipType("\u{26B2}", 2);
-  static final RelationshipType CHARM_MOONS = new RelationshipType("\u{263E}", 2);
+  static final RelationshipType HEARTS = new RelationshipType("\u{2661}", "http://www.farragofiction.com/DollSim/images/Charms/Hearts.png", 2);
 
+  static final RelationshipType SPADES = new RelationshipType("\u{2660}", "http://www.farragofiction.com/DollSim/images/Charms/Spades.png", 2);
+  static final RelationshipType CLUBS = new RelationshipType("\u{2663}", "http://www.farragofiction.com/DollSim/images/Charms/Clubs.png", 3);
+  static final RelationshipType DIAMONDS = new RelationshipType("\u{2662}", "http://www.farragofiction.com/DollSim/images/Charms/Diamonds.png", 2);
+
+  static final RelationshipType CHARM_HEARTS = new RelationshipType("\u{2764}", "http://www.farragofiction.com/DollSim/images/Charms/CharmHearts.png", 2);
+  static final RelationshipType CHARM_STARS = new RelationshipType("\u{2729}", "http://www.farragofiction.com/DollSim/images/Charms/CharmStars.png", 2);
+  static final RelationshipType CHARM_HORSESHOES = new RelationshipType("\u{260B}", "http://www.farragofiction.com/DollSim/images/Charms/CharmHorseshoes.png", 2);
+  static final RelationshipType CHARM_CLOVERS = new RelationshipType("\u{2724}", "http://www.farragofiction.com/DollSim/images/Charms/CharmClovers.png", 2);
+  static final RelationshipType CHARM_DIAMONDS = new RelationshipType("\u{27E1}", "http://www.farragofiction.com/DollSim/images/Charms/CharmDiamonds.png", 2);
+  static final RelationshipType CHARM_RAINBOWS = new RelationshipType("\u{22D2}", "http://www.farragofiction.com/DollSim/images/Charms/CharmRainbows.png", 2);
+  static final RelationshipType CHARM_POT_O_GOLD = new RelationshipType("\u{228D}", "http://www.farragofiction.com/DollSim/images/Charms/CharmPotsOfGold.png", 2);
+  static final RelationshipType CHARM_BALLOONS = new RelationshipType("\u{26B2}", "http://www.farragofiction.com/DollSim/images/Charms/CharmBalloons.png", 2);
+  static final RelationshipType CHARM_MOONS = new RelationshipType("\u{263E}", "http://www.farragofiction.com/DollSim/images/Charms/CharmMoons.png", 2);
+
+  //http://www.farragofiction.com/DollSim/images/Charms/
 
   //>deep breath. shogun made these, they look like fun.
   //todo these string values are placeholders. you need to get ALL of them to use emojis instead of unicode chars.
-  static final RelationshipType DYNAMOTION_CLOWN = new RelationshipType("\u{1F389}", 2); //shogun: "X and Y are in clown. Z is simply the target and not a fixed variable"
-  static final RelationshipType DYNAMOTION_B = new RelationshipType("\u{1F171}", 2);
-  static final RelationshipType DYNAMOTION_FEAR = new RelationshipType("\u{1F631}", 2);
-  static final RelationshipType DYNAMOTION_HORSE = new RelationshipType("\u{2658}", 2);
+  static final RelationshipType DYNAMOTION_CLOWN = new RelationshipType("\u{1F389}", "http://www.farragofiction.com/DollSim/images/Charms/Clown.png", 2); //shogun: "X and Y are in clown. Z is simply the target and not a fixed variable"
+  static final RelationshipType DYNAMOTION_B = new RelationshipType("\u{1F171}", "http://www.farragofiction.com/DollSim/images/Charms/b.png", 2);
+  static final RelationshipType DYNAMOTION_FEAR = new RelationshipType("\u{1F631}", "http://www.farragofiction.com/DollSim/images/Charms/Fear.png", 2);
+  static final RelationshipType DYNAMOTION_HORSE = new RelationshipType("\u{2658}", "http://www.farragofiction.com/DollSim/images/Charms/Horse.png", 2);
 
-  static final RelationshipType DYNAMOTION_THUMBSUP = new RelationshipType("\u{1F44D}", 2);
-  static final RelationshipType DYNAMOTION_CHICK = new RelationshipType("\u{1F426}", 2);
-  static final RelationshipType DYNAMOTION_OKAY = new RelationshipType("\u{1F58F}", 2);
-  static final RelationshipType DYNAMOTION_TYPOSITY = new RelationshipType("\u{1F5D1}", 2);
+  static final RelationshipType DYNAMOTION_THUMBSUP = new RelationshipType("\u{1F44D}", "http://www.farragofiction.com/DollSim/images/Charms/Thumb.png", 2);
+  static final RelationshipType DYNAMOTION_CHICK = new RelationshipType("\u{1F426}", "http://www.farragofiction.com/DollSim/images/Charms/hatched_chick.png", 2);
+  static final RelationshipType DYNAMOTION_OKAY = new RelationshipType("\u{1F58F}", "http://www.farragofiction.com/DollSim/images/Charms/Okay.png", 2);
+  static final RelationshipType DYNAMOTION_TYPOSITY = new RelationshipType("\u{1F5D1}", "http://www.farragofiction.com/DollSim/images/Charms/Tpyosity.png", 2);
 
-  static final RelationshipType DYNAMOTION_WEARY = new RelationshipType("\u{2639}", 2);
-  static final RelationshipType DYNAMOTION_EGGPLANT = new RelationshipType("\u{2619}", 2);
-  static final RelationshipType DYNAMOTION_POOP = new RelationshipType("\u{1F4A9}", 2);
-  static final RelationshipType DYNAMOTION_100 = new RelationshipType("\u{1F4AF}", 2);
+  static final RelationshipType DYNAMOTION_WEARY = new RelationshipType("\u{2639}", "http://www.farragofiction.com/DollSim/images/Charms/Smile.png", 2);
+  static final RelationshipType DYNAMOTION_EGGPLANT = new RelationshipType("\u{2619}", "http://www.farragofiction.com/DollSim/images/Charms/Auberiginastycitiy.png", 2);
+  static final RelationshipType DYNAMOTION_POOP = new RelationshipType("\u{1F4A9}", "http://www.farragofiction.com/DollSim/images/Charms/Patristewartus.png", 2);
+  static final RelationshipType DYNAMOTION_100 = new RelationshipType("\u{1F4AF}", "http://www.farragofiction.com/DollSim/images/Charms/100.png", 2);
 
-  static final RelationshipType DYNAMOTION_DAB = new RelationshipType("[Dab]", 2);
+  static final RelationshipType DYNAMOTION_DAB = new RelationshipType("[Dab]", "http://www.farragofiction.com/DollSim/images/Charms/Dab.png", 2);
   //"The Ultimate Dynamotion is Dab. You can't get it. Ever. It's the Valhalla of friendships. It's the peak of alliance, concern, raw power and charisma." -shogun
 
   static final List<RelationshipType> HUMAN = [HEARTS];
@@ -48,10 +52,12 @@ class RelationshipType {
 
   String value;
   int numParties;
+  String imageSrc;
 
-  RelationshipType(String value, int numParties) {
+  RelationshipType(String value, String imageSrc, int numParties,) {
     this.value = value;
     this.numParties = numParties;
+    this.imageSrc = imageSrc;
   }
 
   //okay, time to rework this.
@@ -132,6 +138,13 @@ class RelationshipType {
     return ret;
   }
 
+ List<ImageElement> getImage() {
+    ImageElement ret = new ImageElement();
+    ret.src = imageSrc;
+    ret.width = SIZE;
+    ret.height = SIZE;
+    return [ret];
+ }
 }
 
 class Relationship {
@@ -165,10 +178,26 @@ class Relationship {
 }
 
 class Vacillation extends RelationshipType {
-
+  List<RelationshipType> types;
   //why must inheritance be so funky
-  Vacillation(List<RelationshipType> types, int numParties) : super("[${types[0].value} \u{1F300} ${types[1].value}]", numParties) {
+  Vacillation(List<RelationshipType> types, int numParties) : super(
+      "[${types[0].value} \u{1F300} ${types[1].value}]",
+      "http://www.farragofiction.com/DollSim/images/Charms/Vacillation.png",
+      numParties) {
+    this.types = types;
+  }
 
+  @override
+  List<ImageElement> getImage() {
+    int size = RelationshipType.SIZE;
+    ImageElement left = types[0].getImage()[0];
+    ImageElement right = types[1].getImage()[0];
+    ImageElement mid = new ImageElement();
+
+    mid.src = imageSrc;
+    mid.width = size;
+    mid.height = size;
+    return [left, mid, right];
   }
 }
 /*
