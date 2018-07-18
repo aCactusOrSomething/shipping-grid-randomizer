@@ -31,20 +31,14 @@
             <table id="names" ></table>
         </td>
         <td id="noBorders">
-            <div>
-                <input id="allowHeart" type="checkbox" checked>human relationships
-            </div>
-            <div>
-                <input id="allowQuadrants" type="checkbox">auxilliary troll quadrants
-            </div>
-            <div>
-                <input id="allowCharms" type="checkbox">leprechaun charms
-            </div>
-        </td>
-        <td id="noBorders">
-            <div style="text-align: center">ship frequency:</div>
-            <input id="frequencySlider" type="range" min="0" max="100" value="10">
-            <div id="frequencyDisplay" style="text-align: center">10</div>
+            <ul style="list-style-type:none">
+                <li><input id="allowHeart" type="checkbox" checked>human relationships</li>
+                <li><input id="allowQuadrants" type="checkbox">auxiliary troll quadrants</li>
+                <li><input id="allowCharms" type="checkbox">leprechaun charms</li>
+            </ul>
+            <input id="advancedOptions" type="button" value="advanced options..." style="text-align: center">
+            <ul id="advancedOptionsList" style="list-style-type:none">
+            </ul>
         </td>
     </tr>
 </table>

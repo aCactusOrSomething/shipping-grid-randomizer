@@ -9,17 +9,23 @@ InputElement quadrantsButton;
 InputElement charmsButton;
 InputElement heartButton;
 InputElement frequencySlider;
+InputElement advancedOptions;
 DivElement frequencyDisplay;
 List<ButtonElement> deleteButtons;
 List<InputElement> nameInputs;
+UListElement advancedOptionsList;
 ButtonElement startButton;
 TableElement shipsOutput;
 TableElement shippingGrid;
+
 
 List<Relationship> ships;
 bool allowQuadrants = false;
 bool allowCharms = false;
 bool allowHeart = true;
+bool allowDynamotions = false;
+bool allowVacillation = true;
+bool advancedOptionsOn = false;
 int frequency = 10;
 
 void main() {
@@ -29,11 +35,13 @@ void main() {
   heartButton = querySelector("#allowHeart");
   quadrantsButton = querySelector("#allowQuadrants");
   charmsButton = querySelector("#allowCharms");
-  frequencySlider = querySelector("#frequencySlider");
-  frequencyDisplay = querySelector("#frequencyDisplay");
+  //frequencySlider = querySelector("#frequencySlider");
+  //frequencyDisplay = querySelector("#frequencyDisplay");
   startButton = querySelector("#startButton");
   shipsOutput = querySelector("#shipsOutput");
   shippingGrid = querySelector("#shippingGrid");
+  advancedOptions = querySelector("#advancedOptions");
+  advancedOptionsList = querySelector("#advancedOptionsList");
 
   deleteButtons = new List<ButtonElement>();
   nameInputs = new List<InputElement>();
@@ -46,7 +54,9 @@ void main() {
   charmsButton.onClick.listen((e) => toggleCharms());
 
   startButton.onClick.listen((e) => startShipping());
-  frequencySlider.onInput.listen((e) => updateFrequency());
+  //frequencySlider.onInput.listen((e) => updateFrequency());
+
+  advancedOptions.onClick.listen((e) => toggleAdvancedOptions());
 
 }
 
@@ -120,38 +130,14 @@ void startShipping() {
 
   if(!duplicate && !blankName && names.length != 0) {
     ships = new List<Relationship>();
-    if (allowHeart) {
-      ships.addAll(
-          RelationshipType.makeShips(
-              names, RelationshipType.HEARTS, frequency));
+    for(RelationshipType type in getAllowedRelationshipTypes()) {
+      ships.addAll(RelationshipType.makeShips(names, type, frequency));
     }
-    if (allowQuadrants) {
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.SPADES, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.DIAMONDS, frequency));
-      ships.addAll(
-          RelationshipType.makeShips(names, RelationshipType.CLUBS, frequency));
-    }
-    if (allowCharms) {
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_BALLOONS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_CLOVERS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_DIAMONDS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_HEARTS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_HORSESHOES, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_MOONS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_POT_O_GOLD, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_RAINBOWS, frequency));
-      ships.addAll(RelationshipType.makeShips(
-          names, RelationshipType.CHARM_STARS, frequency));
+
+    //vacillation is singled out this way, because otherwise i would have a recursive nightmare.
+    if(allowVacillation) {
+      ships.addAll(RelationshipType.makeVacillations(
+          names, ships, getAllowedRelationshipTypes(), frequency));
     }
     shipsOutput.children = new List<Element>();
     for (Relationship ship in ships) {
@@ -197,6 +183,22 @@ void toggleCharms() {
   }
 }
 
+void toggleDynamotions() {
+  if(allowDynamotions == true) {
+    allowDynamotions = false;
+  } else {
+    allowDynamotions = true;
+  }
+}
+
+void toggleVacillation() {
+  if(allowVacillation == true) {
+    allowVacillation = false;
+  } else {
+    allowVacillation = true;
+  }
+}
+
 void buildGrid() {
   shippingGrid.children = new List<Element>();
   if(names.length > 0) {
@@ -225,14 +227,12 @@ void fillGrid() {
     String firstName = ship.parties[0];
     for(int j = 1; j < firstRow.cells.length; j++) {
       TableCellElement cell = firstRow.cells[j];
-      print("does " + firstName + " equal " + names[j - 1]);
+
       if(firstName == names[j - 1]) {
-        print("yes");
+
         for(int k = 1; k < shippingGrid.rows.length; k++) {
           for(int l = 1; l < ship.parties.length; l++) {
-            print("does " + ship.parties[l] + " equal " + names[k - 1] + " which should be at (" + k.toString() + ", " + 0.toString() + ")");
             if(ship.parties[l] == names[k - 1]) {
-              print("yes");
               shippingGrid.rows[k].cells[j - 1].appendText(ship.type.value);
               //fuck, this means it prints it double for selfcest ships. gotta fix that.
               if(names[j - 1] != names[k - 1]) {
@@ -243,7 +243,6 @@ void fillGrid() {
         }
       }
     }
-    print("next ship");
   }
 }
 
@@ -251,3 +250,91 @@ void updateFrequency() {
   frequency = frequencySlider.valueAsNumber;
   frequencyDisplay.text = frequency.toString();
 }
+
+void toggleAdvancedOptions() {
+  //looks like im going to have to build these buttons from scratch.
+  if(advancedOptionsOn == false) {
+    advancedOptionsList.children = new List<Element>();
+    advancedOptionsOn = true;
+    advancedOptionsList.children.add(getDynamoCheckbox());
+    advancedOptionsList.children.add(getVacillationCheckbox());
+    advancedOptionsList.children.add(getFrequencySlider());
+
+  } else {
+    advancedOptionsList.children = new List<Element>();
+    advancedOptionsOn = false;
+  }
+}
+
+LIElement getDynamoCheckbox() {
+  InputElement dynamoCheckbox = new InputElement();
+  LIElement item = new LIElement();
+  dynamoCheckbox.type = "checkbox";
+  dynamoCheckbox.checked = allowDynamotions;
+  item.children.add(dynamoCheckbox);
+  item.appendText("Shitsphere"); //apparently they are called this. i want it to at least DISPLAY shitsphere so im consistent with how its displayed on the main page.
+  dynamoCheckbox.onClick.listen((e) => toggleDynamotions());
+  return item;
+}
+
+LIElement getFrequencySlider() {
+  DivElement top = new DivElement();
+  top.text = "ship frequency:";
+  InputElement slider = new InputElement();
+  slider.type = "range";
+  slider.min = "0";
+  slider.max = "100";
+  slider.value = frequency.toString();
+  DivElement display = new DivElement();
+  display.text = frequency.toString();
+
+  slider.onInput.listen((e) => updateFrequency());
+  frequencySlider = slider;
+  frequencyDisplay = display;
+
+  LIElement ret = new LIElement();
+  ret.append(top);
+  ret.append(slider);
+  ret.append(display);
+  return ret;
+}
+
+LIElement getVacillationCheckbox() {
+  InputElement vacillationCheckbox = new InputElement();
+  LIElement item = new LIElement();
+  vacillationCheckbox.type = "checkbox";
+  vacillationCheckbox.checked = allowVacillation;
+  item.children.add(vacillationCheckbox);
+  item.appendText("Vacillation");
+  vacillationCheckbox.onClick.listen((e) => toggleVacillation());
+  return item;
+}
+
+List<RelationshipType> getAllowedRelationshipTypes() {
+  List<RelationshipType> ret = new List<RelationshipType>();
+  if(allowHeart) {
+    ret.add(RelationshipType.HEARTS);
+  }
+  if(allowQuadrants) {
+    ret.addAll(RelationshipType.EXTRA_QUADRANTS);
+  }
+  if(allowCharms) {
+    ret.addAll(RelationshipType.CHARMS);
+  }
+  if(allowDynamotions) {
+    ret.addAll(RelationshipType.DYNAMOTIONS);
+  }
+  return ret;
+}
+
+/*TODO LIST BEFORE V1:
+-nerf clubs [completed]
+-add Advanced Settings option so im not clogging the whole page with esoteric diagrams [completed]
+-overcoat relationships [50%]
+-vacillations somehow [completed]
+*/
+
+/*todo list before V2:
+-integrate doll parts
+-use images of some sort
+ */
