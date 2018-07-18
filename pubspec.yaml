@@ -1,6 +1,6 @@
 name: ships
 description: A Dart webapp for generating ships.
-version: 0.12.21
+version: 1.00.00
 #author: A Cactus
 
 environment:

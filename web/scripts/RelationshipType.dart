@@ -65,10 +65,6 @@ class RelationshipType {
     List<Relationship> ret = new List<Relationship>();
     double cutoff = frequency / 100;
     Random rand = new Random();
-    int maxShips = 0;
-    for(int i = 0; i < type.numParties; i++ ) {
-      maxShips += names.length - i;
-    }
     for(int i = 0; i < names.length; i++) {
       for(int j = i; j < names.length; j++) {
         //todo: only reason this is OK now is because the maximum parties in a ship is 3, for clubs. generalize this to work with any length.
@@ -156,6 +152,7 @@ class Relationship {
     this.type = type;
   }
 
+  @override
   String toString() {
     String ret = parties[0];
     ret += " " + type.value + " " + parties[1];
@@ -167,7 +164,7 @@ class Relationship {
   TableRowElement toRow() {
     TableRowElement ret = new TableRowElement();
     ret.addCell().text = parties[0];
-    ret.addCell().text = type.value;
+    ret.addCell().children.addAll(type.getImage());
     ret.addCell().text = parties[1];
     for(int i = 2; i < parties.length; i++) {
       ret.addCell().text = "&";
