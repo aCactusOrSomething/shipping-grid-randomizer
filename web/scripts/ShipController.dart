@@ -26,7 +26,10 @@ bool allowHeart = true;
 bool allowDynamotions = false;
 bool allowVacillation = true;
 bool advancedOptionsOn = false;
+bool editMode = false;
 int frequency = 10;
+
+int editModeCounter = 0;
 
 void main() {
 
@@ -199,6 +202,16 @@ void toggleVacillation() {
   }
 }
 
+void toggleEditMode() {
+  if(editMode == true) {
+    editMode = false;
+    buildAdvancedOptions();
+  } else {
+    editMode = true;
+    buildAdvancedOptions();
+  }
+}
+
 void buildGrid() {
   shippingGrid.children = new List<Element>();
   if(names.length > 0) {
@@ -256,18 +269,25 @@ void updateFrequency() {
 void toggleAdvancedOptions() {
   //looks like im going to have to build these buttons from scratch.
   if(advancedOptionsOn == false) {
-    advancedOptionsList.children = new List<Element>();
     advancedOptionsOn = true;
-    advancedOptionsList.children.add(getDynamoCheckbox());
-    advancedOptionsList.children.add(getVacillationCheckbox());
-    advancedOptionsList.children.add(getFrequencySlider());
-
+    buildAdvancedOptions();
   } else {
     advancedOptionsList.children = new List<Element>();
     advancedOptionsOn = false;
   }
 }
 
+void buildAdvancedOptions() {
+  advancedOptionsList.children = new List<Element>();
+  advancedOptionsList.children.add(getDynamoCheckbox());
+  advancedOptionsList.children.add(getVacillationCheckbox());
+  advancedOptionsList.children.add(getEditMode());
+  if(editMode == true) {
+    advancedOptionsList.children.add(getEditModeSelector());
+  }
+  advancedOptionsList.children.add(getFrequencySlider());
+
+}
 LIElement getDynamoCheckbox() {
   InputElement dynamoCheckbox = new InputElement();
   LIElement item = new LIElement();
@@ -312,6 +332,39 @@ LIElement getVacillationCheckbox() {
   return item;
 }
 
+LIElement getEditMode() {
+  InputElement editCheckbox = new InputElement();
+  LIElement item = new LIElement();
+  editCheckbox.type = "checkbox";
+  editCheckbox.checked = editMode;
+  item.children.add(editCheckbox);
+  item.appendText("edit mode");
+  editCheckbox.onClick.listen((e) => toggleEditMode());
+  return item;
+}
+
+LIElement getEditModeSelector() {
+  ImageElement nextShip = new ImageElement();
+  LIElement item = new LIElement();
+  fixEditModeCounter();
+  nextShip.src = getAllowedRelationshipTypes()[editModeCounter].imageSrc;
+  item.children.add(nextShip);
+  nextShip.onClick.listen((e) => cycleSelectedTargetShip());
+  return item;
+}
+
+void cycleSelectedTargetShip() {
+  editModeCounter += 1;
+  fixEditModeCounter();
+  buildAdvancedOptions();
+}
+
+void fixEditModeCounter() {
+  if(editModeCounter < 0 || editModeCounter + 1 > getAllowedRelationshipTypes().length)
+    editModeCounter = 0;
+}
+
+
 List<RelationshipType> getAllowedRelationshipTypes() {
   List<RelationshipType> ret = new List<RelationshipType>();
   if(allowHeart) {
@@ -332,11 +385,12 @@ List<RelationshipType> getAllowedRelationshipTypes() {
 /*TODO LIST BEFORE V1:
 -nerf clubs [completed]
 -add Advanced Settings option so im not clogging the whole page with esoteric diagrams [completed]
--overcoat relationships [50%]
+-overcoat relationships [completed]
 -vacillations somehow [completed]
 */
 
 /*todo list before V2:
 -integrate doll parts
--use images of some sort
+-use images of some sort [completed]
+-enable custom ship grids
  */
