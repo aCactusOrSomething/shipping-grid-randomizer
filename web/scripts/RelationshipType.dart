@@ -246,25 +246,3 @@ class LamiaCard extends RelationshipType {
 
   }
 }
-
-
-/*
-    | |
-   ||/
-   \|
-    |
-  ----
-  you're actually reading through my garbage code?
-  sorry about the mess, most of this was written when i was still a beginner.
-  (heck the original version of this note was, too. i went back and edited it when i needed to make changes.)
-
-  i'm not sure who you are, but i know what people i shared this file with.
-  since i have to say this to all of you, each for very different reasons, I
-  might as well do it here.
-
-  Thank you. Seriously. Y'all have been through a ton recently, and that never
-  stopped any of you from being kind and supportive friends to each other.
-
-  -A Cactus, or something
-
- */
