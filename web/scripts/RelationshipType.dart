@@ -43,9 +43,19 @@ class RelationshipType {
   static final RelationshipType DYNAMOTION_DAB = new RelationshipType("[Dab]", "http://www.farragofiction.com/DollSim/images/Charms/Dab.png", 2);
   //"The Ultimate Dynamotion is Dab. You can't get it. Ever. It's the Valhalla of friendships. It's the peak of alliance, concern, raw power and charisma." -shogun
 
+
+
+  //TODO PUT LAMIA ROMANCE HERE
+  static final LamiaCard CARD_HEART = new LamiaCard("\u{2661}", "http://www.farragofiction.com/DollSim/images/Charms/Hearts.png", 2);
+  static final LamiaCard CARD_SPADES = new LamiaCard("\u{2660}", "http://www.farragofiction.com/DollSim/images/Charms/Spades.png", 2);
+  static final LamiaCard CARD_CLUBS = new LamiaCard("\u{2663}", "http://www.farragofiction.com/DollSim/images/Charms/Clubs.png", 2);//manic made lamia clubs 2 party and this is why i love her so much
+  static final LamiaCard CARD_DIAMONDS = new LamiaCard("\u{2662}", "http://www.farragofiction.com/DollSim/images/Charms/Diamonds.png", 2);
+  static final LamiaCard JOKER = new LamiaCard("\u{1F389}", "http://www.farragofiction.com/DollSim/images/Charms/Clown.png", 2); //honk!
+
   static final List<RelationshipType> HUMAN = [HEARTS];
   static final List<RelationshipType> EXTRA_QUADRANTS = [SPADES, CLUBS, DIAMONDS];
   static final List<RelationshipType> CHARMS = [CHARM_HEARTS, CHARM_STARS, CHARM_HORSESHOES, CHARM_CLOVERS, CHARM_DIAMONDS, CHARM_RAINBOWS, CHARM_POT_O_GOLD, CHARM_BALLOONS, CHARM_MOONS];
+  static final List<LamiaCard> CARDS = [CARD_HEART, CARD_SPADES, CARD_DIAMONDS, CARD_CLUBS];
   static final List<RelationshipType> DYNAMOTIONS = [DYNAMOTION_CLOWN, DYNAMOTION_B, DYNAMOTION_FEAR, DYNAMOTION_HORSE,
   DYNAMOTION_THUMBSUP, DYNAMOTION_CHICK, DYNAMOTION_OKAY, DYNAMOTION_TYPOSITY,
   DYNAMOTION_WEARY, DYNAMOTION_EGGPLANT, DYNAMOTION_POOP, DYNAMOTION_100]; //no dab, it is not attainable.
@@ -134,7 +144,7 @@ class RelationshipType {
     return ret;
   }
 
- List<ImageElement> getImage() {
+ List<HtmlElement> getImage() {
     ImageElement ret = new ImageElement();
     ret.src = imageSrc;
     ret.width = SIZE;
@@ -185,18 +195,59 @@ class Vacillation extends RelationshipType {
   }
 
   @override
-  List<ImageElement> getImage() {
+  List<HtmlElement> getImage() {
     int size = RelationshipType.SIZE;
-    ImageElement left = types[0].getImage()[0];
-    ImageElement right = types[1].getImage()[0];
+    List<HtmlElement> ret = [];
+    ret.addAll(types[0].getImage());
     ImageElement mid = new ImageElement();
+    ret.add(mid);
+    ret.addAll(types[1].getImage());
 
     mid.src = imageSrc;
     mid.width = size;
     mid.height = size;
-    return [left, mid, right];
+    return ret;
   }
 }
+
+class LamiaCard extends RelationshipType {
+  /*lamia cards function the same as normal relationship types, but have an additional intensity value.
+  the intensity can go from 1 to 13. (1 is considered stronger than 13, but comparing values is not within the scope)
+  */
+
+  LamiaCard(String value, String imageSrc, int numParties, ): super(value, imageSrc, numParties);
+
+  @override
+  List<HtmlElement> getImage() {
+    ImageElement retType = new ImageElement();
+    retType.src = imageSrc;
+    retType.width = RelationshipType.SIZE;
+    retType.height = RelationshipType.SIZE;
+
+    SpanElement retIntensity = new SpanElement();
+    retIntensity.appendText(getRandomIntensity());
+    return [retType, retIntensity];
+  }
+
+  //god this is lazy
+  static String getRandomIntensity() {
+    Random rand = new Random();
+    int intensity = 1 + rand.nextInt(13);
+    if(intensity > 1 && intensity < 11) {
+      return "$intensity";
+    } else if(intensity == 1)
+      return "A";
+    else if(intensity == 11)
+      return "J";
+    else if(intensity == 12)
+      return "Q";
+    else if(intensity == 13)
+      return "K";
+
+  }
+}
+
+
 /*
     | |
    ||/
