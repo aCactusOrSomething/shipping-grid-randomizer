@@ -13,3 +13,6 @@ packages
 
 # Include when developing application packages.
 pubspec.lock
+
+# dont keep built things or anything weird like that
+*.zip
